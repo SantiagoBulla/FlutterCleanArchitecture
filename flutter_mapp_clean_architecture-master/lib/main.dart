@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mapp_clean_architecture/features/pokemon_image/presentation/providers/pokemon_image_provider.dart';
 import 'package:provider/provider.dart';
 import 'features/pokemon/presentation/providers/pokemon_provider.dart';
 import 'features/pokemon/presentation/providers/selected_pokemon_item_provider.dart';
@@ -25,6 +26,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => SelectedPokemonItemProvider(),
         ),
+        /// add provider to the application
+        ChangeNotifierProvider(
+          create: (context) => PokemonImageProvider(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -34,13 +39,13 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
-                color: Colors.black87,
+                color: Colors.orange,
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
             ),
             iconTheme: const IconThemeData(
-              color: Colors.black87,
+              color: Colors.red,
             )),
         home: const Home(),
       ),
@@ -58,10 +63,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   void initState() {
+    //we created a instance of selectPokemonItemProvider and PokemonImageProvider
     SelectedPokemonItemProvider selectedPokemonItem = Provider.of<SelectedPokemonItemProvider>(context, listen: false);
+    PokemonImageProvider pokemonImageProvider = Provider.of<PokemonImageProvider>(context, listen: false);
 
+    /**
+     * we call the class Provider and indicates to flutter that we want to user the pokemon provider
+     * trough the eitherFailureOrPokemon method that received two arguments, {value,pokemonImageProvider}
+     */
     Provider.of<PokemonProvider>(context, listen: false).eitherFailureOrPokemon(
       value: (selectedPokemonItem.number + 1).toString(),
+      pokemonImageProvider: pokemonImageProvider,
     );
     super.initState();
   }

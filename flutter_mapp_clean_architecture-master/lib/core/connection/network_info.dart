@@ -4,6 +4,7 @@ abstract class NetworkInfo {
   Future<bool>? get isConnected;
 }
 
+// * validate if the mobile has connection
 class NetworkInfoImpl implements NetworkInfo {
   final DataConnectionChecker connectionChecker;
 
